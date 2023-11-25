@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
 
-import '../stores/todo_list_tile_store.dart';
-import '../stores/todo_store.dart';
+import '../../../stores/todo_list_tile_store.dart';
+import '../stores/todo_page_store.dart';
 import '../widgets/todo_list_widget.dart';
 
 class TodoPage extends StatefulWidget {
   const TodoPage({super.key, required this.store});
 
-  final TodoStore store;
+  final TodoPageStore store;
 
   @override
   State<TodoPage> createState() => _TodoPageState();
@@ -78,9 +78,12 @@ class _TodoPageState extends State<TodoPage> {
                                   // mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Text(
-                                      'Todo',
+                                      'Dezembro 16, 2023',
                                       style: context.textTheme.headlineMedium?.copyWith(
                                         color: context.colorScheme.onPrimary,
+                                        fontSize: 16,
+                                        height: 1.1,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ],
@@ -96,14 +99,16 @@ class _TodoPageState extends State<TodoPage> {
                                       'FlutterPad',
                                       style: context.textTheme.headlineLarge?.copyWith(
                                         color: context.colorScheme.onPrimary,
-                                        fontWeight: FontWeight.w900,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 30,
                                       ),
                                     ),
                                     Text(
                                       'Todo List',
                                       style: context.textTheme.headlineLarge?.copyWith(
                                         color: context.colorScheme.onPrimary,
-                                        fontWeight: FontWeight.w900,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 30,
                                       ),
                                     ),
                                   ],
@@ -120,7 +125,7 @@ class _TodoPageState extends State<TodoPage> {
                     child: FutureBuilder(
                       future: widget.store.getTodoList(),
                       builder: (context, snapshot) {
-                        final List<TodoListTileStore> todoList = snapshot.data ?? [];
+                        final List<TodoItemEntity> todoList = snapshot.data ?? [];
 
                         final openTodoList = todoList.where((element) => !element.isFinished).toList();
                         final finishedTodoList = todoList.where((element) => element.isFinished).toList();

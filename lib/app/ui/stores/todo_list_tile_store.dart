@@ -1,17 +1,23 @@
 import 'package:flutter/cupertino.dart';
 
-abstract class TodoListTileStore {
+abstract class TodoItemEntity {
+  final String categoryId;
+  final String id;
   final IconData categoryIcon;
+  final Color categoryColor;
   final String title;
   final String subtitle;
-  final DateTime data;
+  final DateTime date;
   final String annotation;
 
-  TodoListTileStore({
+  TodoItemEntity({
+    required this.id,
+    required this.categoryId,
     required this.categoryIcon,
+    required this.categoryColor,
     required this.title,
     required this.subtitle,
-    required this.data,
+    required this.date,
     required this.annotation,
   });
 

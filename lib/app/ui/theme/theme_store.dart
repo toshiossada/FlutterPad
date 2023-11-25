@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ThemeStore {
   final Color primary;
@@ -35,27 +36,65 @@ class ThemeStore {
   }
 
   ThemeData getThemeData(BuildContext context) {
-
     final textTheme = context.textTheme;
-
-
 
     final colorScheme = getColorScheme();
 
     return ThemeData(
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: surface,
+      scaffoldBackgroundColor: colorScheme.surface,
+      textTheme: GoogleFonts.poppinsTextTheme(),
+      iconTheme: const IconThemeData(
+        size: 24,
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: primary,
         foregroundColor: surfaceVariant,
         titleTextStyle: context.textTheme.titleLarge?.copyWith(
-          color: context.colorScheme.onPrimary,
+          color: colorScheme.onPrimary,
         ),
         elevation: 0,
         centerTitle: true,
       ),
+      listTileTheme: const ListTileThemeData(
+        dense: true,
+        minVerticalPadding: 0,
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 16,
+        ),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        // fillColor: MaterialStateProperty.all<Color>(
+        //   colorScheme.onSurface,
+        // ),
+        // side: BorderSide(
+        //   color: colorScheme.outline,
+        //   width: 1,
+        // ),
+        overlayColor: MaterialStateProperty.all<Color>(
+          colorScheme.onSurfaceVariant,
+        ),
+        checkColor: MaterialStateProperty.all<Color>(
+          colorScheme.surfaceVariant,
+        ),
+        splashRadius: 24,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
+          fixedSize: const Size.fromHeight(36),
+          textStyle: textTheme.titleLarge?.copyWith(
+            color: colorScheme.onPrimary,
+            fontSize: 16,
+            height: 24 / 16,
+            fontWeight: FontWeight.w700,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
           padding: const EdgeInsets.symmetric(
             vertical: 10,
             horizontal: 10,
