@@ -1,4 +1,4 @@
-import '../../../stores/todo_list_tile_store.dart';
+import '../../../../../domain/entities/todo_list_tile_store.dart';
 
 abstract class TodoPageStore {
   Future<List<TodoItemEntity>> getTodoList();

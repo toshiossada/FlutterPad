@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
-abstract class TodoItemEntity {
+import 'entity_base.dart';
+
+abstract class TodoItemEntity extends EntityBase {
   final String categoryId;
-  final String id;
   final IconData categoryIcon;
   final Color categoryColor;
   final String title;
@@ -11,7 +12,7 @@ abstract class TodoItemEntity {
   final String annotation;
 
   TodoItemEntity({
-    required this.id,
+    required super.id,
     required this.categoryId,
     required this.categoryIcon,
     required this.categoryColor,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
 import 'package:flutterpad/app/ui/features/todo/widgets/todo_list_tile.dart';
 
-import '../../../stores/todo_list_tile_store.dart';
+import '../../../../../domain/entities/todo_list_tile_store.dart';
 
 class TodoListWidget extends StatelessWidget {
   const TodoListWidget({super.key, required this.openTodoList, required this.onPressed});

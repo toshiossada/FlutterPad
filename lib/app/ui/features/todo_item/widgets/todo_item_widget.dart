@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
 import 'package:flutterpad/app/ui/extensions/datetime_extension.dart';
-import 'package:flutterpad/app/ui/stores/todo_list_tile_store.dart';
+import 'package:flutterpad/domain/entities/todo_list_tile_store.dart';
 
 class TodoItemWidget extends StatefulWidget {
   const TodoItemWidget({
@@ -16,7 +16,6 @@ class TodoItemWidget extends StatefulWidget {
 }
 
 class _TodoItemWidgetState extends State<TodoItemWidget> {
-
   final titleController = TextEditingController();
   final dateController = TextEditingController();
   final timeController = TextEditingController();

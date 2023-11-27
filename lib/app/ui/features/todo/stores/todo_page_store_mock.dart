@@ -5,8 +5,10 @@ import 'package:flutterpad/app/ui/features/todo/stores/todo_item_store_mock.dart
 import 'package:flutterpad/app/ui/features/todo/stores/todo_page_store.dart';
 import 'package:flutterpad/app/ui/features/todo_item/pages/todo_item_page.dart';
 import 'package:flutterpad/app/ui/features/todo_item/stores/todo_edit_item_page_store.dart';
-import 'package:flutterpad/app/ui/stores/todo_list_tile_store.dart';
+import 'package:flutterpad/domain/entities/todo_list_tile_store.dart';
+import 'package:flutterpad/external/hive/todo_repository.dart';
 
+import '../../../../../external/models/todo_item_model.dart';
 import '../../todo_item/stores/todo_add_item_page_store.dart';
 
 class TodoStoreMock extends TodoPageStore {
@@ -18,6 +20,61 @@ class TodoStoreMock extends TodoPageStore {
 
   @override
   Future<List<TodoItemEntity>> getTodoList() async {
+    TodoRepository todoRepository = TodoRepository();
+
+    //todo add items, or get from repository
+    // final mockedTodoItemModel = TodoItemModel(
+    //   id: '1',
+    //   categoryId: '1',
+    //   categoryIcon: Icons.work,
+    //   categoryColor: getRandomColor(),
+    //   title: 'Work Meeting',
+    //   subtitle: 'Discuss project updates',
+    //   date: DateTime.now().add(Duration(days: 1)),
+    //   annotation: 'Prepare presentation slides',
+    // );
+    //
+    // final mockedTodoItemModel2 = TodoItemModel(
+    //   id: '2',
+    //   categoryId: '2',
+    //   categoryIcon: Icons.home,
+    //   categoryColor: getRandomColor(),
+    //   title: 'House Chores',
+    //   subtitle: 'Cleaning and organizing',
+    //   date: DateTime.now().add(Duration(days: 2)),
+    //   annotation: 'Focus on garage and attic',
+    // );
+    //
+    // final mockedTodoItemModel3 = TodoItemModel(
+    //   id: '3',
+    //   categoryId: '3',
+    //   categoryIcon: Icons.shopping_cart,
+    //   categoryColor: getRandomColor(),
+    //   title: 'Grocery Shopping',
+    //   subtitle: 'Buy groceries for the week',
+    //   date: DateTime.now().add(Duration(days: 3)),
+    //   annotation: 'Remember to buy eggs and milk',
+    // );
+    //
+    // //created a date before today, 3 days
+    // final mockedTodoItemModel4 = TodoItemModel(
+    //   id: '4',
+    //   categoryId: '4',
+    //   categoryIcon: Icons.fitness_center,
+    //   categoryColor: getRandomColor(),
+    //   title: 'Gym Time',
+    //   subtitle: 'Leg day workout',
+    //   date: DateTime.now().subtract(Duration(days: 3)),
+    //   annotation: 'Start with squats',
+    // );
+    //
+    // await todoRepository.addTodoItem(mockedTodoItemModel);
+    // await todoRepository.addTodoItem(mockedTodoItemModel2);
+    // await todoRepository.addTodoItem(mockedTodoItemModel3);
+    // await todoRepository.addTodoItem(mockedTodoItemModel4);
+    //
+    // final items = await todoRepository.getTodoList();
+
     return _list ??= _generateMock();
   }
 

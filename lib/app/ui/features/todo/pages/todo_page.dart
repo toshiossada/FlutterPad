@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
 
-import '../../../stores/todo_list_tile_store.dart';
+import '../../../../../domain/entities/todo_list_tile_store.dart';
 import '../stores/todo_page_store.dart';
 import '../widgets/todo_list_widget.dart';
 
