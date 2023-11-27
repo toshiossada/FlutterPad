@@ -12,70 +12,19 @@ import '../../../../../external/models/todo_item_model.dart';
 import '../../todo_item/stores/todo_add_item_page_store.dart';
 
 class TodoStoreMock extends TodoPageStore {
-  TodoStoreMock(this.context);
+  final List<TodoItemEntity> _list = [];
 
-  final BuildContext context;
+  TodoStoreMock() {
+    loadListItems();
+  }
 
-  List<TodoItemEntity>? _list;
+  void loadListItems() async {
+    final items = await _generateHive();
+    //final items = _generateMock();
 
-  @override
-  Future<List<TodoItemEntity>> getTodoList() async {
-    TodoRepository todoRepository = TodoRepository();
-
-    //todo add items, or get from repository
-    // final mockedTodoItemModel = TodoItemModel(
-    //   id: '1',
-    //   categoryId: '1',
-    //   categoryIcon: Icons.work,
-    //   categoryColor: getRandomColor(),
-    //   title: 'Work Meeting',
-    //   subtitle: 'Discuss project updates',
-    //   date: DateTime.now().add(Duration(days: 1)),
-    //   annotation: 'Prepare presentation slides',
-    // );
-    //
-    // final mockedTodoItemModel2 = TodoItemModel(
-    //   id: '2',
-    //   categoryId: '2',
-    //   categoryIcon: Icons.home,
-    //   categoryColor: getRandomColor(),
-    //   title: 'House Chores',
-    //   subtitle: 'Cleaning and organizing',
-    //   date: DateTime.now().add(Duration(days: 2)),
-    //   annotation: 'Focus on garage and attic',
-    // );
-    //
-    // final mockedTodoItemModel3 = TodoItemModel(
-    //   id: '3',
-    //   categoryId: '3',
-    //   categoryIcon: Icons.shopping_cart,
-    //   categoryColor: getRandomColor(),
-    //   title: 'Grocery Shopping',
-    //   subtitle: 'Buy groceries for the week',
-    //   date: DateTime.now().add(Duration(days: 3)),
-    //   annotation: 'Remember to buy eggs and milk',
-    // );
-    //
-    // //created a date before today, 3 days
-    // final mockedTodoItemModel4 = TodoItemModel(
-    //   id: '4',
-    //   categoryId: '4',
-    //   categoryIcon: Icons.fitness_center,
-    //   categoryColor: getRandomColor(),
-    //   title: 'Gym Time',
-    //   subtitle: 'Leg day workout',
-    //   date: DateTime.now().subtract(Duration(days: 3)),
-    //   annotation: 'Start with squats',
-    // );
-    //
-    // await todoRepository.addTodoItem(mockedTodoItemModel);
-    // await todoRepository.addTodoItem(mockedTodoItemModel2);
-    // await todoRepository.addTodoItem(mockedTodoItemModel3);
-    // await todoRepository.addTodoItem(mockedTodoItemModel4);
-    //
-    // final items = await todoRepository.getTodoList();
-
-    return _list ??= _generateMock();
+    _list.clear();
+    _list.addAll(items);
+    notifyListeners();
   }
 
   List<TodoItemEntity> _generateMock() {
@@ -209,12 +158,63 @@ class TodoStoreMock extends TodoPageStore {
     ];
   }
 
+  Future<List<TodoItemEntity>> _generateHive() async {
+    TodoRepository todoRepository = TodoRepository();
+
+    //todo add items, or get from repository
+    final mockedTodoItemModel = TodoItemModel(
+      id: '1',
+      categoryId: '1',
+      categoryIcon: Icons.work,
+      categoryColor: getRandomColor(),
+      title: 'Work Meeting',
+      subtitle: 'Discuss project updates',
+      date: DateTime.now().add(Duration(days: 1)),
+      annotation: 'Prepare presentation slides',
+    );
+    final mockedTodoItemModel2 = TodoItemModel(
+      id: '2',
+      categoryId: '2',
+      categoryIcon: Icons.home,
+      categoryColor: getRandomColor(),
+      title: 'House Chores',
+      subtitle: 'Cleaning and organizing',
+      date: DateTime.now().add(Duration(days: 2)),
+      annotation: 'Focus on garage and attic',
+    );
+    final mockedTodoItemModel3 = TodoItemModel(
+      id: '3',
+      categoryId: '3',
+      categoryIcon: Icons.shopping_cart,
+      categoryColor: getRandomColor(),
+      title: 'Grocery Shopping',
+      subtitle: 'Buy groceries for the week',
+      date: DateTime.now().add(Duration(days: 3)),
+      annotation: 'Remember to buy eggs and milk',
+    );
+    final mockedTodoItemModel4 = TodoItemModel(
+      id: '4',
+      categoryId: '4',
+      categoryIcon: Icons.fitness_center,
+      categoryColor: getRandomColor(),
+      title: 'Gym Time',
+      subtitle: 'Leg day workout',
+      date: DateTime.now().subtract(Duration(days: 3)),
+      annotation: 'Start with squats',
+    );
+
+    await todoRepository.addTodoItem(mockedTodoItemModel);
+    await todoRepository.addTodoItem(mockedTodoItemModel2);
+    await todoRepository.addTodoItem(mockedTodoItemModel3);
+    await todoRepository.addTodoItem(mockedTodoItemModel4);
+    return todoRepository.getTodoList();
+  }
+
   getRandomColor() {
     return Colors.primaries[Random().nextInt(Colors.primaries.length)].shade100;
   }
 
-  @override
-  Future<void> navigateToAddTodoPage() async {
+  Future<void> _navigateToAddTodoPage({required BuildContext context}) async {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -225,8 +225,7 @@ class TodoStoreMock extends TodoPageStore {
     );
   }
 
-  @override
-  Future<void> navigateToEditTodoPage(TodoItemEntity todoListTileStore) async {
+  Future<void> _navigateToEditTodoPage({required TodoItemEntity todoListTileStore, required BuildContext context}) async {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -236,4 +235,20 @@ class TodoStoreMock extends TodoPageStore {
       ),
     );
   }
+
+  @override
+  List<TodoItemEntity> get finishedTodoList => _list.where((element) => element.isFinished).toList();
+
+  @override
+  void onPressedTodoItem(TodoItemEntity todoListTileStore, BuildContext context) {
+    _navigateToEditTodoPage(todoListTileStore: todoListTileStore, context: context);
+  }
+
+  @override
+  void onTapCreateItemTodo(BuildContext context) {
+    _navigateToAddTodoPage(context: context);
+  }
+
+  @override
+  List<TodoItemEntity> get openTodoList => _list.where((element) => element.isFinished == false).toList();
 }

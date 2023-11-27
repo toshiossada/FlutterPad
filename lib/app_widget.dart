@@ -16,16 +16,13 @@ class _AppWidgetState extends State<AppWidget> {
   Widget build(BuildContext context) {
     final theme = FlutterPadTheme();
 
-
-
-
     return MaterialApp(
       title: 'FlutterPad',
       theme: theme.getLightThemeData(context),
       darkTheme: theme.getDarkThemeData(context),
       home: Builder(
         builder: (context) {
-          return TodoPage(store: TodoStoreMock(context));
+          return TodoPage(store: TodoStoreMock());
         },
       ),
     );

@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
+
 import '../../../../../domain/entities/todo_list_tile_store.dart';
 
-abstract class TodoPageStore {
-  Future<List<TodoItemEntity>> getTodoList();
+abstract class TodoPageStore with ChangeNotifier {
+  List<TodoItemEntity> get openTodoList;
+  List<TodoItemEntity> get finishedTodoList;
 
-  Future<void> navigateToAddTodoPage();
-
-  Future<void> navigateToEditTodoPage(TodoItemEntity todoListTileStore);
+  void onPressedTodoItem(TodoItemEntity todoListTileStore, BuildContext context);
+  void onTapCreateItemTodo(BuildContext context);
 }
