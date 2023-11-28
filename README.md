@@ -1,16 +1,32 @@
-# flutterpad
 
-A new Flutter project.
+# FlutterPad
 
-## Getting Started
+  ![image](https://github.com/toshiossada/FlutterPad/assets/2637049/f0b72807-61da-4a04-85cb-1a5ecb532cca)
 
-This project is a starting point for a Flutter application.
+Projeto criado no para o Evento FlutterPad de 16/12/2023
 
-A few resources to get you started if this is your first Flutter project:
+## Cronograma
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Abertura (5min 16:00 / 16:05)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+O Simples, Poderoso e Rápido (Flutter): Dio (16:05 / 16:30)
+
+Linguagem Dart e suas Vantagens: Cindy (16:30 / 16:55)
+
+Widgets Primários: Bruno (16:55 / 17:20) [[link](https://github.com/toshiossada/FlutterPad/tree/static-ui-from-figma)]
+
+(Testemunho) A Importância das Comunidades: Eduardo (17:20 / 17:25)
+
+Reatividade e Gerência de Estado: Halan (17:25 / 17:50)
+
+Animações: Edson (17:50 / 18:15)
+
+(Testemunho) A Importância da Comunidade: Sabrina 5 min (18:15 / 18:20)
+
+Requisição HTTP com Dio ou Http: Bagun (18:20 / 18:45)
+
+Banco de Dados Locais (Hive, SQLflite, Shared Preferences): Fred (18:45 / 19:10)
+
+Objetivo é criar um TODO list seguindo as especificações do [Figma](https://www.figma.com/file/qmYzGqV4QhWFA5oyU3Y5Dc/FlutterPad---Todo-List?type=design&node-id=0:1&mode=design&t=cmUYXyXWxPWriqbI-1)
+
+![image](https://github.com/toshiossada/FlutterPad/assets/2637049/7a04c27e-5f1f-4f0b-ac5e-21b0b70561aa)
