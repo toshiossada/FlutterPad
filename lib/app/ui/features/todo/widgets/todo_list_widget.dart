@@ -5,10 +5,9 @@ import 'package:flutterpad/app/ui/features/todo/widgets/todo_list_tile.dart';
 import '../../../stores/todo_list_tile_store.dart';
 
 class TodoListWidget extends StatelessWidget {
-  const TodoListWidget({super.key, required this.openTodoList, required this.onPressed});
+  const TodoListWidget({super.key, required this.openTodoList});
 
   final List<TodoItemEntity> openTodoList;
-  final void Function(TodoItemEntity todo) onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class TodoListWidget extends StatelessWidget {
           final todo = openTodoList[index];
           return TodoListTile(
             store: todo,
-            onPressed: () => onPressed(todo),
+            onPressed:  (){},
           );
         },
       ),

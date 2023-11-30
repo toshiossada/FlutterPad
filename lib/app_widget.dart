@@ -25,7 +25,7 @@ class _AppWidgetState extends State<AppWidget> {
       darkTheme: theme.getDarkThemeData(context),
       home: Builder(
         builder: (context) {
-          return TodoPage(store: TodoStoreMock(context));
+          return const TodoPage();
         },
       ),
     );
