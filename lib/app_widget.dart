@@ -28,6 +28,7 @@ class _AppWidgetState extends State<AppWidget> {
           return const TodoPage();
         },
       ),
+      debugShowCheckedModeBanner: false
     );
   }
 }

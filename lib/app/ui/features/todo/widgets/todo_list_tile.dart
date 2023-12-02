@@ -8,10 +8,12 @@ class TodoListTile extends StatelessWidget {
     super.key,
     required this.store,
     required this.onPressed,
+    required this.checkBox
   });
 
   final TodoItemEntity store;
   final VoidCallback onPressed;
+  final Function(bool?) checkBox;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,7 @@ class TodoListTile extends StatelessWidget {
                 )
               : null,
           value: store.isFinished,
-          onChanged: (bool? value) {},
+          onChanged: checkBox,
         ),
       ),
     );
