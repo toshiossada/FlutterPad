@@ -4,12 +4,11 @@ import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
 import '../../../stores/todo_list_tile_store.dart';
 
 class TodoListTile extends StatelessWidget {
-  const TodoListTile({
-    super.key,
-    required this.store,
-    required this.onPressed,
-    required this.checkBox
-  });
+  const TodoListTile(
+      {super.key,
+      required this.store,
+      required this.onPressed,
+      required this.checkBox});
 
   final TodoItemEntity store;
   final VoidCallback onPressed;

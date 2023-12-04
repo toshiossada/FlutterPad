@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutterpad/app/core/shared/items_controller.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
@@ -14,10 +16,28 @@ class TodoPage extends StatefulWidget {
   State<TodoPage> createState() => _TodoPageState();
 }
 
-class _TodoPageState extends State<TodoPage> {
-
+class _TodoPageState extends State<TodoPage>
+    with SingleTickerProviderStateMixin {
   ItemsController itemsController = ItemsController();
   TodoController todoController = TodoController();
+
+  late final AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,38 +62,51 @@ class _TodoPageState extends State<TodoPage> {
                     child: Column(
                       children: [
                         AnimatedBuilder(
-                          animation: itemsController, 
-                          builder: (BuildContext context, Widget? child) {
-                            return Column(
-                              children: [
-                                itemsController.itemsInitList.isEmpty 
-                                ?SizedBox(width: size.width, child: const Center(child: Text("Sem itens novo", style: TextStyle(fontSize: 20, color: Colors.white),)))
-                                :Column(
-                                  children: [
-                                    TodoListWidget(
-                                      itemsController:   itemsController
-                                    ),
-                                  ],
-                                ),
-                                itemsController.itemsAdd.isEmpty 
-                                ?const SizedBox()
-                                :Column(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
-                                      child:  Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text("Finalizadas", style: TextStyle(fontSize: 20),)),
-                                    ),
-                                    TodoListItemWidget(
-                                      itemsController:   itemsController
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          }
-                        ),
+                            animation: itemsController,
+                            builder: (BuildContext context, Widget? child) {
+                              return Column(
+                                children: [
+                                  itemsController.itemsInitList.isEmpty
+                                      ? SizedBox(
+                                          width: size.width,
+                                          child: const Center(
+                                              child: Text(
+                                            "Sem itens novo",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          )))
+                                      : Column(
+                                          children: [
+                                            TodoListWidget(
+                                                itemsController:
+                                                    itemsController),
+                                          ],
+                                        ),
+                                  itemsController.itemsAdd.isEmpty
+                                      ? const SizedBox()
+                                      : Column(
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 20, 0, 10),
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    "Finalizadas",
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  )),
+                                            ),
+                                            TodoListItemWidget(
+                                                itemsController:
+                                                    itemsController),
+                                          ],
+                                        ),
+                                ],
+                              );
+                            }),
                       ],
                     ),
                   ),
@@ -88,9 +121,35 @@ class _TodoPageState extends State<TodoPage> {
                   child: SizedBox(
                     width: size.width,
                     height: 50,
-                    child: FilledButton(
-                      onPressed: () => todoController.naviTodoAddList(context, TodoItemPage(title: 'Nova tarefa', itemsController: itemsController, titleButton: 'Criar',)),
-                      child: const Text('Criar Todo'),
+                    child: AnimatedBuilder(
+                      animation: _animationController,
+                      builder: (context, child) {
+                        const circleInRadians = 2 * pi;
+
+                        debugPrint(
+                            'Valor interpolado entre 0 - 1: ${_animationController.value}');
+
+                        return Transform.rotate(
+                          angle: _animationController.value * circleInRadians,
+                          child: FilledButton(
+                            onPressed: () async {
+                              await _animationController.forward();
+                              _animationController.reset();
+                              if (!mounted) return;
+
+                              todoController.naviTodoAddList(
+                                context,
+                                TodoItemPage(
+                                  title: 'Nova tarefa',
+                                  itemsController: itemsController,
+                                  titleButton: 'Criar',
+                                ),
+                              );
+                            },
+                            child: const Text('Criar Todo'),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
