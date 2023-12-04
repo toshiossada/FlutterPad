@@ -1,9 +1,9 @@
-// import '../../../stores/todo_list_tile_store.dart';
+import '../../../stores/todo_list_tile_store.dart';
 
-// abstract class TodoPageStore {
-//   Future<List<TodoItemEntity>> getTodoList();
+abstract class TodoPageStore {
+  Future<List<TodoItemEntity>> getTodoList();
 
-//   Future<void> navigateToAddTodoPage();
+  Future<void> navigateToAddTodoPage();
 
-//   Future<void> navigateToEditTodoPage(TodoItemEntity todoListTileStore);
-// }
+  Future<void> navigateToEditTodoPage(TodoItemEntity todoListTileStore);
+}
