@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpad/app/core/shared/items_controller.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
+import 'package:flutterpad/app/ui/features/todo/controller/todo_controller.dart';
+import 'package:flutterpad/app/ui/features/todo/widgets/todo_list_widget.dart';
+import 'package:flutterpad/app/ui/features/todo_item/pages/todo_item_page.dart';
 
-import '../../../stores/todo_list_tile_store.dart';
-import '../stores/todo_page_store.dart';
-import '../widgets/todo_list_widget.dart';
+import '../widgets/todo_body.dart';
 
 class TodoPage extends StatefulWidget {
-  const TodoPage({super.key, required this.store});
-
-  final TodoPageStore store;
+  const TodoPage({super.key});
 
   @override
   State<TodoPage> createState() => _TodoPageState();
 }
 
 class _TodoPageState extends State<TodoPage> {
+
+  ItemsController itemsController = ItemsController();
+  TodoController todoController = TodoController();
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -27,153 +32,69 @@ class _TodoPageState extends State<TodoPage> {
                   Material(
                     color: context.colorScheme.primary,
                     clipBehavior: Clip.antiAlias,
-                    child: SizedBox(
+                    child: const SizedBox(
                       height: 222,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: -191,
-                            top: 78,
-                            right: 239,
-                            bottom: -198,
-                            child: Material(
-                              color: Colors.transparent,
-                              shape: CircleBorder(
-                                side: BorderSide(
-                                  color: context.colorScheme.secondary,
-                                  // color: Colors.red,
-                                  width: 44,
-                                ),
-                              ),
-                              child: const SizedBox.square(
-                                dimension: 348,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 327,
-                            top: -27,
-                            right: -82,
-                            bottom: 104,
-                            child: Material(
-                              color: Colors.transparent,
-                              shape: CircleBorder(
-                                side: BorderSide(
-                                  color: context.colorScheme.secondary,
-                                  // color: Colors.red,
-                                  width: 35,
-                                ),
-                              ),
-                              child: const SizedBox.square(
-                                dimension: 145,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-                            child: Column(
+                      child: TodoBody(),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 170, 20, 100),
+                    child: Column(
+                      children: [
+                        AnimatedBuilder(
+                          animation: itemsController, 
+                          builder: (BuildContext context, Widget? child) {
+                            return Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  // mainAxisSize: MainAxisSize.max,
+                                itemsController.itemsInitList.isEmpty 
+                                ?SizedBox(width: size.width, child: const Center(child: Text("Sem itens novo", style: TextStyle(fontSize: 20, color: Colors.white),)))
+                                :Column(
                                   children: [
-                                    Text(
-                                      'Dezembro 16, 2023',
-                                      style: context.textTheme.headlineMedium?.copyWith(
-                                        color: context.colorScheme.onPrimary,
-                                        fontSize: 16,
-                                        height: 1.1,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    TodoListWidget(
+                                      itemsController:   itemsController
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 31,
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                itemsController.itemsAdd.isEmpty 
+                                ?const SizedBox()
+                                :Column(
                                   children: [
-                                    Text(
-                                      'FlutterPad',
-                                      style: context.textTheme.headlineLarge?.copyWith(
-                                        color: context.colorScheme.onPrimary,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 30,
-                                      ),
+                                    const Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                                      child:  Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text("Finalizadas", style: TextStyle(fontSize: 20),)),
                                     ),
-                                    Text(
-                                      'Todo List',
-                                      style: context.textTheme.headlineLarge?.copyWith(
-                                        color: context.colorScheme.onPrimary,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 30,
-                                      ),
+                                    TodoListItemWidget(
+                                      itemsController:   itemsController
                                     ),
                                   ],
                                 ),
                               ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 158, 16, 16),
-                    child: FutureBuilder(
-                      future: widget.store.getTodoList(),
-                      builder: (context, snapshot) {
-                        final List<TodoItemEntity> todoList = snapshot.data ?? [];
-
-                        final openTodoList = todoList.where((element) => !element.isFinished).toList();
-                        final finishedTodoList = todoList.where((element) => element.isFinished).toList();
-
-                        return Column(
-                          children: [
-                            TodoListWidget(
-                              openTodoList: openTodoList,
-                              onPressed: (todo) => widget.store.navigateToEditTodoPage(todo),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 24),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Finalizadas',
-                                    style: context.textTheme.titleLarge,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            TodoListWidget(
-                              openTodoList: finishedTodoList,
-                              onPressed: (todo) => widget.store.navigateToEditTodoPage(todo),
-                            ),
-                            const SizedBox(
-                              height: 100,
-                            ),
-                          ],
-                        );
-                      },
+                            );
+                          }
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-                child: FilledButton(
-                  onPressed: widget.store.navigateToAddTodoPage,
-                  child: const Text('Criar Todo'),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 20, 16, 10),
+                  child: SizedBox(
+                    width: size.width,
+                    height: 50,
+                    child: FilledButton(
+                      onPressed: () => todoController.naviTodoAddList(context, TodoItemPage(title: 'Nova tarefa', itemsController: itemsController, titleButton: 'Criar',)),
+                      child: const Text('Criar Todo'),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             )
           ],
         ),

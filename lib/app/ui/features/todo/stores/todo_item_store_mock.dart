@@ -11,6 +11,7 @@ class TodoItemStoreMock extends TodoItemEntity {
     required super.title,
     required super.subtitle,
     required super.date,
+    required super.time,
     required super.annotation,
     required this.finished,
   }) : super(id: (++_index).toString(), categoryId: _random.nextInt(3).toString());

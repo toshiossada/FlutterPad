@@ -65,13 +65,6 @@ class ThemeStore {
         ),
       ),
       checkboxTheme: CheckboxThemeData(
-        // fillColor: MaterialStateProperty.all<Color>(
-        //   colorScheme.onSurface,
-        // ),
-        // side: BorderSide(
-        //   color: colorScheme.outline,
-        //   width: 1,
-        // ),
         overlayColor: MaterialStateProperty.all<Color>(
           colorScheme.onSurfaceVariant,
         ),

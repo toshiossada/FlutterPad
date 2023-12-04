@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpad/app/core/shared/items_controller.dart';
 import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
-import 'package:flutterpad/app/ui/extensions/datetime_extension.dart';
 import 'package:flutterpad/app/ui/stores/todo_list_tile_store.dart';
 
 class TodoItemWidget extends StatefulWidget {
   const TodoItemWidget({
     super.key,
     this.itemEntity,
+    required this.itemsController
   });
 
   final TodoItemEntity? itemEntity;
+  final ItemsController itemsController;
 
   @override
   State<TodoItemWidget> createState() => _TodoItemWidgetState();
@@ -17,24 +19,10 @@ class TodoItemWidget extends StatefulWidget {
 
 class _TodoItemWidgetState extends State<TodoItemWidget> {
 
-  final titleController = TextEditingController();
-  final dateController = TextEditingController();
-  final timeController = TextEditingController();
-  final annotationController = TextEditingController();
-
-  void setControllerValuesFromTodoItemEntity(TodoItemEntity todoItemEntity) {
-    titleController.text = todoItemEntity.title;
-    dateController.text = todoItemEntity.date.toDateString();
-    timeController.text = todoItemEntity.date.toDateString();
-    annotationController.text = todoItemEntity.annotation;
-  }
-
   @override
-  void initState() {
-    super.initState();
-    if (widget.itemEntity != null) {
-      setControllerValuesFromTodoItemEntity(widget.itemEntity!);
-    }
+  void dispose() {
+    super.dispose();
+    widget.itemsController.disposeController();
   }
 
   @override
@@ -67,7 +55,18 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
                 style: textTitleStyle,
               ),
               TextFormField(
-                controller: titleController,
+                controller: widget.itemsController.titleController,
+                decoration: const InputDecoration(
+                  hintText: 'Título da tarefa',
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Descrição',
+                style: textTitleStyle,
+              ),
+              TextFormField(
+                controller: widget.itemsController.subtitleController,
                 decoration: const InputDecoration(
                   hintText: 'Título da tarefa',
                 ),
@@ -77,39 +76,54 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
           const SizedBox(
             height: 24,
           ),
-          Row(
-            children: [
-              Text(
-                'Categoria',
-                style: textTitleStyle,
-              ),
-              const SizedBox(
-                width: 24,
-              ),
-              IconButton.filledTonal(
-                icon: const Icon(
-                  Icons.list_alt,
-                ), // Icon color
-                onPressed: () {},
-                style: IconButton.styleFrom(),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              IconButton.filledTonal(
-                icon: const Icon(
-                  Icons.calendar_today,
-                ), // Icon color
-                onPressed: () {},
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              IconButton.filledTonal(
-                onPressed: () {},
-                icon: const Icon(Icons.emoji_events),
-              ),
-            ],
+          AnimatedBuilder(
+            builder: (context, e) {
+              return Row(
+                children: [
+                  Text(
+                    'Categoria',
+                    style: textTitleStyle,
+                  ),
+                  const SizedBox(
+                    width: 24,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: widget.itemsController.listAlt ?  Colors.green : Colors.white,
+                    child: IconButton.filledTonal(
+                      icon: const Icon(
+                        Icons.list_alt,
+                      ), // Icon color
+                      onPressed: () => widget.itemsController.updateListAlt()
+                      ,
+                      style: IconButton.styleFrom(),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: widget.itemsController.calendarToday ? Colors.green : Colors.white,
+                    child: IconButton.filledTonal(
+                      icon: const Icon(
+                        Icons.calendar_today,
+                      ), // Icon color
+                      onPressed: () => widget.itemsController.updateCalendarToday()
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: widget.itemsController.emojiEvents ? Colors.green : Colors.white,
+                    child: IconButton.filledTonal(
+                      onPressed: () => widget.itemsController.updateEmojiEvents(),
+                      icon: const Icon(Icons.emoji_events),
+                    ),
+                  ),
+                ],
+              );
+            }, 
+            animation: widget.itemsController,
           ),
           const SizedBox(
             height: 24,
@@ -125,7 +139,7 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
                       style: textTitleStyle,
                     ),
                     TextFormField(
-                      controller: dateController,
+                      controller: widget.itemsController.dateController,
                       keyboardType: TextInputType.datetime,
                       decoration: const InputDecoration(
                         labelText: 'Data',
@@ -147,7 +161,7 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
                       style: textTitleStyle,
                     ),
                     TextFormField(
-                      controller: timeController,
+                      controller: widget.itemsController.timeController,
                       keyboardType: TextInputType.datetime,
                       decoration: const InputDecoration(
                         labelText: 'Hora',
@@ -172,7 +186,7 @@ class _TodoItemWidgetState extends State<TodoItemWidget> {
               SizedBox(
                 height: 177,
                 child: TextFormField(
-                  controller: annotationController,
+                  controller: widget.itemsController.annotationController,
                   expands: true,
                   maxLines: null,
                   minLines: null,

@@ -7,7 +7,8 @@ abstract class TodoItemEntity {
   final Color categoryColor;
   final String title;
   final String subtitle;
-  final DateTime date;
+  final String date;
+  final String time;
   final String annotation;
 
   TodoItemEntity({
@@ -18,6 +19,7 @@ abstract class TodoItemEntity {
     required this.title,
     required this.subtitle,
     required this.date,
+    required this.time,
     required this.annotation,
   });
 

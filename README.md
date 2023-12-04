@@ -17,7 +17,7 @@ Widgets Primários: Bruno (16:55 / 17:20) [[link](https://github.com/toshiossada
 
 (Testemunho) A Importância das Comunidades: Eduardo (17:20 / 17:25)
 
-Reatividade e Gerência de Estado: Halan (17:25 / 17:50)
+Reatividade e Gerência de Estado: Halan (17:25 / 17:50) [[link](https://github.com/toshiossada/FlutterPad/tree/gerenciamento_de_estado_hallan)]
 
 Animações: Edson (17:50 / 18:15)
 
