@@ -19,7 +19,7 @@ Widgets Primários: Bruno (16:55 / 17:20) [[link](https://github.com/toshiossada
 
 Reatividade e Gerência de Estado: Halan (17:25 / 17:50) [[link](https://github.com/toshiossada/FlutterPad/tree/gerenciamento_de_estado_hallan)]
 
-Animações: Edson (17:50 / 18:15)
+Animações: Edson (17:50 / 18:15)  [[link](https://github.com/EdsonMello-code/FlutterPad/tree/feature/animations)] 
 
 (Testemunho) A Importância da Comunidade: Sabrina 5 min (18:15 / 18:20)
 
