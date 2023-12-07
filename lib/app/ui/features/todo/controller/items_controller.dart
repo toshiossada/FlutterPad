@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutterpad/app/ui/features/todo/stores/todo_item_store_mock.dart';
-import 'package:flutterpad/app/ui/stores/todo_list_tile_store.dart';
+import 'package:flutterpad/app/ui/features/todo/stores/todo_list_tile_store.dart';
 
 class ItemsController with ChangeNotifier{
 

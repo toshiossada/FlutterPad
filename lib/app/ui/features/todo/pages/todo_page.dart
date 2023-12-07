@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutterpad/app/core/shared/items_controller.dart';
-import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
+import 'package:flutterpad/app/ui/features/todo/controller/items_controller.dart';
+import 'package:flutterpad/app/extensions/context_extensions.dart';
 import 'package:flutterpad/app/ui/features/todo/controller/todo_controller.dart';
 import 'package:flutterpad/app/ui/features/todo/widgets/todo_list_widget.dart';
-import 'package:flutterpad/app/ui/features/todo_item/pages/todo_item_page.dart';
+import 'package:flutterpad/app/ui/features/todo/pages/todo_item_page.dart';
 
 import '../widgets/todo_body.dart';
 

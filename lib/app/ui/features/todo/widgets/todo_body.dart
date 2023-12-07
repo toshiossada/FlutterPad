@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
+import 'package:flutterpad/app/extensions/context_extensions.dart';
 
 class TodoBody extends StatelessWidget {
   const TodoBody({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpad/app/core/shared/items_controller.dart';
-import 'package:flutterpad/app/ui/extensions/context_extensions.dart';
-import 'package:flutterpad/app/ui/stores/todo_list_tile_store.dart';
+import 'package:flutterpad/app/ui/features/todo/controller/items_controller.dart';
+import 'package:flutterpad/app/extensions/context_extensions.dart';
+import 'package:flutterpad/app/ui/features/todo/stores/todo_list_tile_store.dart';
 
 class TodoItemWidget extends StatefulWidget {
   const TodoItemWidget({

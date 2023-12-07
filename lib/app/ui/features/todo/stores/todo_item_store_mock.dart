@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutterpad/app/ui/stores/todo_list_tile_store.dart';
+import 'package:flutterpad/app/ui/features/todo/stores/todo_list_tile_store.dart';
 
 class TodoItemStoreMock extends TodoItemEntity {
   final bool finished;
