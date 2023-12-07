@@ -24,9 +24,7 @@ class TodoListWidget extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         final todo = itemsController.itemsInitList[index];
         return TweenAnimationBuilder(
-          duration: const Duration(
-            seconds: 1,
-          ),
+          duration: const Duration(milliseconds: 600),
           tween: Tween<double>(
             begin: 0,
             end: 1,
@@ -96,7 +94,7 @@ class TodoListItemWidget extends StatelessWidget {
 
         return TweenAnimationBuilder(
           duration: const Duration(
-            seconds: 1,
+            milliseconds: 300,
           ),
           tween: Tween<double>(
             begin: 0,
