@@ -1,12 +1,29 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutterpad/app/ui/features/todo/stores/todo_item_store_mock.dart';
-import 'package:flutterpad/app/ui/features/todo/stores/todo_list_tile_store.dart';
 
-class ItemsController with ChangeNotifier{
+import '../repositories/todo_item_model.dart';
+import '../repositories/todo_repository.dart';
+import '../stores/todo_list_tile_store.dart';
 
-   getRandomColor() {
+class ItemsController with ChangeNotifier {
+  late TodoRepository repository;
+  ItemsController() {
+    initLists();
+  }
+
+  void initLists() async {
+    repository = TodoRepository();
+    final finishedItems = await repository.finishedList();
+    final unfinishedItems = await repository.unfinishedList();
+
+    itemsAdd = finishedItems;
+    itemsInitList = unfinishedItems;
+
+    notifyListeners();
+  }
+
+  getRandomColor() {
     return Colors.primaries[Random().nextInt(Colors.primaries.length)].shade100;
   }
 
@@ -15,21 +32,23 @@ class ItemsController with ChangeNotifier{
   bool calendarToday = false;
   bool emojiEvents = false;
 
-  updateListAlt(){
+  updateListAlt() {
     icone = Icons.list_alt;
     listAlt = true;
     calendarToday = false;
     emojiEvents = false;
     notifyListeners();
   }
-  updateCalendarToday(){
+
+  updateCalendarToday() {
     icone = Icons.calendar_today;
     listAlt = false;
     calendarToday = true;
     emojiEvents = false;
     notifyListeners();
   }
-  updateEmojiEvents(){
+
+  updateEmojiEvents() {
     icone = Icons.emoji_events;
     listAlt = false;
     calendarToday = false;
@@ -43,58 +62,48 @@ class ItemsController with ChangeNotifier{
   TextEditingController annotationController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
 
-
   List<TodoItemEntity> itemsAdd = [];
   List<TodoItemEntity> itemsInitList = [];
-  addItemsInitList(){
-    itemsInitList.add(
-      TodoItemStoreMock(
-          categoryIcon: icone,
-          categoryColor: getRandomColor(),
-          title: titleController.text,
-          subtitle: subtitleController.text,
-          date: dateController.text,
-          annotation: annotationController.text,
-          finished: false, 
-          time: titleController.text,
-        ),
+  addItemsInitList() async {
+    final item = TodoItemModel.create(
+      categoryId: DateTime.now().millisecondsSinceEpoch.toString(),
+      categoryIcon: icone,
+      categoryColor: getRandomColor(),
+      title: titleController.text,
+      subtitle: subtitleController.text,
+      date: dateController.text,
+      annotation: annotationController.text,
+      time: titleController.text,
+      finished: false,
     );
+    await repository.create(item);
+    itemsInitList.add(item);
     notifyListeners();
   }
 
-  updateItemsInitList({required TodoItemEntity item}){
-    itemsAdd.add(
-       TodoItemStoreMock(
-          categoryIcon: item.categoryIcon,
-          categoryColor: item.categoryColor,
-          title: item.title,
-          subtitle: item.subtitle,
-          date: item.date,
-          annotation: item.annotation,
-          finished: true, 
-          time: item.time,
-        ));
+  updateItemsInitList({required TodoItemEntity item}) {
+    final finishedItem = TodoItemModel.fromEntity(
+      entity: item,
+      finished: true,
+    );
+    repository.update(finishedItem);
+    itemsAdd.add(finishedItem);
     itemsInitList.remove(item);
     notifyListeners();
   }
 
-    updateItemsAdd({required TodoItemEntity item}){
-    itemsInitList.add(
-       TodoItemStoreMock(
-          categoryIcon: item.categoryIcon,
-          categoryColor: item.categoryColor,
-          title: item.title,
-          subtitle: item.subtitle,
-          date: item.date,
-          annotation: item.annotation,
-          finished: false,
-          time: item.time,
-        ));
+  updateItemsAdd({required TodoItemEntity item}) {
+    final unfinishedItem = TodoItemModel.fromEntity(
+      entity: item,
+      finished: false,
+    );
+    repository.update(unfinishedItem);
+    itemsInitList.add(unfinishedItem);
     itemsAdd.remove(item);
     notifyListeners();
   }
 
-  editeTodo({required TodoItemEntity item}){
+  editeTodo({required TodoItemEntity item}) {
     icone = item.categoryIcon;
     titleController.text = item.title;
     dateController.text = item.date;
@@ -103,23 +112,25 @@ class ItemsController with ChangeNotifier{
     subtitleController.text = item.subtitle;
   }
 
-  updateTodo({required TodoItemEntity item}){
+  updateTodo({required TodoItemEntity item}) {
     itemsInitList.remove(item);
-    itemsInitList.add(
-      TodoItemStoreMock(
-         categoryIcon: icone,
-          categoryColor: getRandomColor(),
-          title: titleController.text,
-          subtitle: subtitleController.text,
-          date: dateController.text,
-          annotation: annotationController.text,
-          finished: false, 
-          time: titleController.text,
-      ));
-      notifyListeners();
+    final updatedItem = TodoItemModel.update(
+      entity: item,
+      categoryId: DateTime.now().millisecondsSinceEpoch.toString(),
+      categoryIcon: icone,
+      categoryColor: getRandomColor(),
+      title: titleController.text,
+      subtitle: subtitleController.text,
+      date: dateController.text,
+      annotation: annotationController.text,
+      time: titleController.text,
+    );
+    repository.update(updatedItem);
+    itemsInitList.add(updatedItem);
+    notifyListeners();
   }
 
-  disposeController(){
+  disposeController() {
     titleController.text = "";
     dateController.text = "";
     timeController.text = "";
@@ -129,5 +140,5 @@ class ItemsController with ChangeNotifier{
     listAlt = true;
     calendarToday = false;
     emojiEvents = false;
-  } 
-} 
+  }
+}
