@@ -25,7 +25,7 @@ Animações: Edson (17:50 / 18:15)  [[link](https://github.com/EdsonMello-code/F
 
 Requisição HTTP com Dio ou Http: Bagun (18:20 / 18:45)
 
-Banco de Dados Locais (Hive, SQLflite, Shared Preferences): Fred (18:45 / 19:10)
+Banco de Dados Locais (Hive, SQLflite, Shared Preferences): Fred (18:45 / 19:10) [[link](https://github.com/toshiossada/FlutterPad/tree/feature/hive-local-database)]
 
 Objetivo é criar um TODO list seguindo as especificações do [Figma](https://www.figma.com/file/qmYzGqV4QhWFA5oyU3Y5Dc/FlutterPad---Todo-List?type=design&node-id=0:1&mode=design&t=cmUYXyXWxPWriqbI-1)
 
