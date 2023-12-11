@@ -29,7 +29,9 @@ class _TodoPageState extends State<TodoPage> {
                     clipBehavior: Clip.antiAlias,
                     child: SizedBox(
                       height: 222,
+                      width: double.infinity,
                       child: Stack(
+                        fit: StackFit.expand,
                         children: [
                           Positioned(
                             left: -191,
@@ -73,45 +75,27 @@ class _TodoPageState extends State<TodoPage> {
                             padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                             child: Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  // mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      'Dezembro 16, 2023',
-                                      style: context.textTheme.headlineMedium?.copyWith(
-                                        color: context.colorScheme.onPrimary,
-                                        fontSize: 16,
-                                        height: 1.1,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  'Dezembro 16, 2023',
+                                  style: context.textTheme.headlineMedium?.copyWith(
+                                    color: context.colorScheme.onPrimary,
+                                    fontSize: 16,
+                                    height: 1.1,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(
                                   height: 31,
                                 ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'FlutterPad',
-                                      style: context.textTheme.headlineLarge?.copyWith(
-                                        color: context.colorScheme.onPrimary,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Todo List',
-                                      style: context.textTheme.headlineLarge?.copyWith(
-                                        color: context.colorScheme.onPrimary,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  'FlutterPad\nTodo List',
+                                  style: context.textTheme.headlineLarge?.copyWith(
+                                    color: context.colorScheme.onPrimary,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 30,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
@@ -131,6 +115,7 @@ class _TodoPageState extends State<TodoPage> {
                         final finishedTodoList = todoList.where((element) => element.isFinished).toList();
 
                         return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TodoListWidget(
                               openTodoList: openTodoList,
@@ -138,14 +123,10 @@ class _TodoPageState extends State<TodoPage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 24),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Finalizadas',
-                                    style: context.textTheme.titleLarge,
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
+                              child: Text(
+                                'Finalizadas',
+                                style: context.textTheme.titleLarge,
+                                textAlign: TextAlign.left,
                               ),
                             ),
                             TodoListWidget(
@@ -174,7 +155,7 @@ class _TodoPageState extends State<TodoPage> {
                   child: const Text('Criar Todo'),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
