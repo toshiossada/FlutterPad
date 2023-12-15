@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutterpad/app/ui/features/todo/controller/items_controller.dart';
 import 'package:flutterpad/app/extensions/context_extensions.dart';
+import 'package:flutterpad/app/ui/features/todo/controller/items_controller.dart';
 import 'package:flutterpad/app/ui/features/todo/controller/todo_controller.dart';
-import 'package:flutterpad/app/ui/features/todo/widgets/todo_list_tile.dart';
 import 'package:flutterpad/app/ui/features/todo/pages/todo_item_page.dart';
+import 'package:flutterpad/app/ui/features/todo/widgets/todo_list_tile.dart';
 
 class TodoListWidget extends StatelessWidget {
   const TodoListWidget({super.key, required this.itemsController});
@@ -51,6 +51,9 @@ class TodoListWidget extends StatelessWidget {
             ),
             child: TodoListTile(
               store: todo,
+              onLongPress: () {
+                itemsController.remove(todo);
+              },
               onPressed: () {
                 itemsController.editeTodo(item: todo);
                 TodoController().naviTodoAddList(
@@ -121,6 +124,9 @@ class TodoListItemWidget extends StatelessWidget {
             ),
             child: TodoListTile(
               store: todo,
+              onLongPress: () {
+                itemsController.remove(todo);
+              },
               onPressed: () {},
               checkBox: (bool? v) {
                 itemsController.updateItemsAdd(item: todo);

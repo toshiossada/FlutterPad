@@ -25,7 +25,6 @@ class TodoItemModel extends TodoItemEntity {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'categoryId': categoryId,
       'categoryIconCodePoint': categoryIcon.codePoint,
       'categoryColorValue': categoryColor.value,
@@ -47,8 +46,8 @@ class TodoItemModel extends TodoItemEntity {
     final categoryColor = Color(map['categoryColorValue']);
 
     return TodoItemModel(
-      id: map['id'],
-      categoryId: map['categoryId'],
+      id: map['id'].toString(),
+      categoryId: map['categoryId'].toString(),
       categoryIcon: categoryIcon,
       categoryColor: categoryColor,
       title: map['title'],
