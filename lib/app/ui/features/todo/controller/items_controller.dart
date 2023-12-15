@@ -3,19 +3,23 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../repositories/todo_item_model.dart';
+import '../repositories/todo_remote_repository.dart';
 import '../repositories/todo_repository.dart';
 import '../stores/todo_list_tile_store.dart';
 
 class ItemsController with ChangeNotifier {
-  late TodoRepository repository;
+  final repository = TodoRepository();
+  final repositoryRemote = TodoRemoteRepository();
   ItemsController() {
     initLists();
   }
 
   void initLists() async {
-    repository = TodoRepository();
-    final finishedItems = await repository.finishedList();
-    final unfinishedItems = await repository.unfinishedList();
+    // final finishedItems = await repository.finishedList();
+    // final unfinishedItems = await repository.unfinishedList();
+
+    final finishedItems = await repositoryRemote.byStatus(true);
+    final unfinishedItems = await repositoryRemote.byStatus(false);
 
     itemsAdd = finishedItems;
     itemsInitList = unfinishedItems;
@@ -77,7 +81,14 @@ class ItemsController with ChangeNotifier {
       finished: false,
     );
     await repository.create(item);
+    await repositoryRemote.create(item);
     itemsInitList.add(item);
+    notifyListeners();
+  }
+
+  remove(TodoItemEntity item) {
+    repositoryRemote.delete(item.id);
+    itemsInitList.remove(item);
     notifyListeners();
   }
 
@@ -87,6 +98,7 @@ class ItemsController with ChangeNotifier {
       finished: true,
     );
     repository.update(finishedItem);
+    repositoryRemote.update(finishedItem);
     itemsAdd.add(finishedItem);
     itemsInitList.remove(item);
     notifyListeners();
@@ -98,6 +110,7 @@ class ItemsController with ChangeNotifier {
       finished: false,
     );
     repository.update(unfinishedItem);
+    repositoryRemote.update(unfinishedItem);
     itemsInitList.add(unfinishedItem);
     itemsAdd.remove(item);
     notifyListeners();
@@ -126,6 +139,7 @@ class ItemsController with ChangeNotifier {
       time: titleController.text,
     );
     repository.update(updatedItem);
+    repositoryRemote.update(updatedItem);
     itemsInitList.add(updatedItem);
     notifyListeners();
   }

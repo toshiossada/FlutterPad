@@ -4,14 +4,17 @@ import 'package:flutterpad/app/extensions/context_extensions.dart';
 import '../stores/todo_list_tile_store.dart';
 
 class TodoListTile extends StatelessWidget {
-  const TodoListTile(
-      {super.key,
-      required this.store,
-      required this.onPressed,
-      required this.checkBox});
+  const TodoListTile({
+    super.key,
+    required this.store,
+    required this.onPressed,
+    required this.onLongPress,
+    required this.checkBox,
+  });
 
   final TodoItemEntity store;
   final VoidCallback onPressed;
+  final VoidCallback onLongPress;
   final Function(bool?) checkBox;
 
   @override
@@ -58,6 +61,7 @@ class TodoListTile extends StatelessWidget {
           decoration: store.isFinished ? TextDecoration.lineThrough : null,
         ),
       ),
+      onLongPress: onLongPress,
       onTap: onPressed,
       trailing: Transform.scale(
         scale: 4 / 3,
